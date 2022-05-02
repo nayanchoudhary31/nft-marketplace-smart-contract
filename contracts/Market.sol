@@ -2,8 +2,9 @@
 
 pragma solidity ^0.8.7;
 import "./IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
-contract Market {
+contract Market is ERC721Holder {
     enum ListingStatus {
         Active,
         Sold,
@@ -102,5 +103,14 @@ contract Market {
         returns (ListingDetails memory)
     {
         return _listingDetails[_listId];
+    }
+
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes memory
+    ) public virtual override returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 }
